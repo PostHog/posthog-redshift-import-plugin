@@ -1,0 +1,74 @@
+{
+    "name": "Redshift Import Plugin",
+    "url": "https://github.com/posthog/posthog-redshift-import-plugin",
+    "description": "Import PostHog events from Amazon Redshift.",
+    "main": "index.ts",
+    "posthogVersion": ">= 1.25.0",
+    "config": [
+        {
+            "key": "clusterHost",
+            "hint": "Example: `redshift-cluster-name.xxxxxxxxxxx.us-east-1.redshift.amazonaws.com`",
+            "name": "Redshift host",
+            "type": "string",
+            "required": true
+        },
+        {
+            "key": "clusterPort",
+            "hint": "Default: 5439",
+            "name": "Cluster port",
+            "type": "string",
+            "default": "5439",
+            "required": true
+        },
+        {
+            "key": "dbName",
+            "name": "Database name",
+            "type": "string",
+            "default": "dev",
+            "required": true
+        },
+        {
+            "key": "tableName",
+            "hint": "The plugin will create a table with this name to store the events in",
+            "name": "Table name",
+            "type": "string",
+            "default": "posthog_event"
+        },
+        {
+            "key": "dbUsername",
+            "hint": "This user needs table creation access",
+            "name": "Username available to the plugin for accessing your database instance",
+            "type": "string",
+            "required": true
+        },
+        {
+            "key": "dbPassword",
+            "hint": "Make sure it's a strong one!",
+            "name": "Password for the username specified above",
+            "type": "string",
+            "secret": true,
+            "required": true
+        },
+        {
+            "key": "orderByColumn",
+            "name": "'Order by' column",
+            "type": "string",
+            "default": "timestamp"
+        },
+        {
+            "key": "transformationName",
+            "name": "Select a transformation to apply to your data:",
+            "type": "choice",
+            "hint": "Visit the [plugin's repository](https://github.com/posthog/posthog-redshift-import-plugin) to learn more about the available transformations",
+            "choices": ["default", "JSON Map"],
+            "default": "default"
+        },
+        {
+            "key": "rowToEventMap",
+            "name": "Upload a JSON mapping of your row data to a PostHog event",
+            "type": "attachment",
+            "required_if": [["transformationName", "JSON Map"]],
+            "visible_if": [["transformationName", "JSON Map"]]
+        }
+    ]
+}
