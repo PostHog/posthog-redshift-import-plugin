@@ -1,9 +1,14 @@
-# Redshift Import Plugin (Alpha)
+# Redshift Import Plugin (BETA)
 
-> **⚠️ This plugin is not ready for production use yet!**
+> Looking to contribute a transformation? See [Contributing a transformation](#contributing-a-transformation).
 
 Import data from a Redshift table in the form of PostHog events.
-## Instructions 
+
+## ⚠️ Important Notice
+
+This plugin is still in Beta! **Use it at your own risk**. Feel free to check out [its code](https://github.com/PostHog/posthog-redshift-import-plugin/blob/main/index.ts) and [submit feedback](https://github.com/PostHog/posthog-redshift-import-plugin/issues/new?title=Plugin+Feedback).
+
+## Installation Instructions 
 
 ### 1. Select a Redshift table to use for this plugin
 ### 2. Create a user with sufficient priviledges to read data from your table
@@ -22,8 +27,38 @@ This plugin receives the data from your table and transforms it to create a Post
 
 > **Important:** Make sure your Redshift table has a [sort key](https://docs.aws.amazon.com/redshift/latest/dg/t_Sorting_data.html) and use the sort key column as the "Order by column" in the plugin config.
 
-#### Available Transformations
+#### Contributing a transformation
 
+If none of the transformations listed below suits your use case, you're more than welcome to contribute your own transformation!
+
+To do so, just add your transformation to the `transformations` object in the `index.ts` file and list it in the `plugin.json` choices list for the field `transformationName`.
+
+A transformation entry looks like this:
+
+```js
+'<transformation name here>': {
+    author: '<your github username here>',
+    transform: async (row, meta) => {
+        /* 
+
+        Fill in your transformation here and
+        make sure to return an event according to 
+        the TransformedPluginEvent interface:
+
+        interface TransformedPluginEvent {
+            event: string,
+            properties?: PluginEvent['properties']
+        }
+
+        */
+    }
+}
+```
+
+Your GitHub username is important so that we only allow changes to transformations by the authors themselves.
+
+Once you've submitted your PR, feel free to tag @yakkomajuri for review!
+#### Available Transformations
 ##### default
 
 The default transformation looks for the following columns in your table: `event`, `timestamp`, `distinct_id`, and `properties`, and maps them to the equivalent PostHog event fields of the same name.

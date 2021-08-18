@@ -23,6 +23,7 @@ type RedshiftImportPlugin = Plugin<{
         eventsToIgnore: string
         orderByColumn: string
         transformationName: string
+        importMechanism: 'Import continuously' | 'Only import historical data'
     }
 }>
 
@@ -85,6 +86,18 @@ export const setupPlugin: RedshiftImportPlugin['setupPlugin'] = async ({ config,
     }
 
     global.totalRows = Number(totalRowsResult.queryResult.rows[0].count)
+
+    // if set to only import historical data, take a "snapshot" of the count
+    // on the first run and only import up to that point
+    if (config.importMechanism === 'Only import historical data') {
+        const totalRowsSnapshot = await storage.get('total_rows_snapshot', null)
+        if (!totalRowsSnapshot) {
+            await storage.set('total_rows_snapshot', Number(totalRowsResult.queryResult.rows[0].count))
+        } else {
+            global.totalRows = Number(totalRowsSnapshot)
+        }
+    } 
+
     
     // used for picking up where we left off after a restart
     const offset = await storage.get(REDIS_OFFSET_KEY, 0)

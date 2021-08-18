@@ -1,8 +1,8 @@
 {
-    "name": "@posthog/redshift-plugin",
+    "name": "posthog-redshift-import-plugin",
     "private": true,
-    "version": "0.0.1",
-    "description": "Export PostHog events to Amazon Redshift on ingestion.",
+    "version": "0.0.1-beta",
+    "description": "Import PostHog events from Amazon Redshift.",
     "devDependencies": {
         "@posthog/plugin-contrib": "^0.0.3",
         "@posthog/plugin-scaffold": "0.12.5",
