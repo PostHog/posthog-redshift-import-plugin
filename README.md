@@ -31,7 +31,7 @@ This plugin receives the data from your table and transforms it to create a Post
 
 If none of the transformations listed below suits your use case, you're more than welcome to contribute your own transformation!
 
-To do so, just add your transformation to the `transformations` object in the `index.ts` file and list it in the `plugin.json` choices list for the field `transformationName`.
+To do so, just add your transformation to the [`transformations` object](https://github.com/PostHog/posthog-redshift-import-plugin/blob/33702ea2bc640aee0a45ddd40c6a4b8ca94012cf/index.ts#L226) in the `index.ts` file and list it in the `plugin.json` [choices list](https://github.com/PostHog/posthog-redshift-import-plugin/blob/33702ea2bc640aee0a45ddd40c6a4b8ca94012cf/plugin.json#L66) for the field `transformationName`.
 
 A transformation entry looks like this:
 
@@ -58,7 +58,9 @@ A transformation entry looks like this:
 Your GitHub username is important so that we only allow changes to transformations by the authors themselves.
 
 Once you've submitted your PR, feel free to tag @yakkomajuri for review!
+
 #### Available Transformations
+
 ##### default
 
 The default transformation looks for the following columns in your table: `event`, `timestamp`, `distinct_id`, and `properties`, and maps them to the equivalent PostHog event fields of the same name.
