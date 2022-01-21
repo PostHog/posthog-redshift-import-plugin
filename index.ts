@@ -54,7 +54,7 @@ const EVENTS_PER_BATCH = 10
 const REDIS_OFFSET_KEY = 'import_offset'
 
 const sanitizeSqlIdentifier = (unquotedIdentifier: string): string => {
-    return unquotedIdentifier.replace(/[^\w\d_]+/g, '')
+    return unquotedIdentifier.replace(/[^\w\d_.]+/g, '')
 }
 
 export const jobs: RedshiftImportPlugin['jobs'] = {
