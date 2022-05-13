@@ -105,11 +105,12 @@ export const setupPlugin: RedshiftImportPlugin['setupPlugin'] = async ({ config,
     // needed to prevent race conditions around offsets leading to events ingested twice
     let initialOffset = Number(offset)
     global.initialOffset = initialOffset
+    let newOffset = initialOffset
     try {
-        const newOffset = Math.floor(initialOffset / EVENTS_PER_BATCH)
+        newOffset = Math.floor(initialOffset / EVENTS_PER_BATCH)
         await cache.set(REDIS_OFFSET_KEY, newOffset)
     } catch(e) {
-        console.error('could not cache redis offset as: ', initialOffset, ' calculated using ', initialOffset, ' divided by ', EVENTS_PER_BATCH)
+        console.error('could not cache redis offset as: ', newOffset, ' calculated using ', initialOffset, ' divided by ', EVENTS_PER_BATCH)
         throw e
     }
     
