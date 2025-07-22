@@ -69,7 +69,7 @@ export const setupPlugin: RedshiftImportPlugin['setupPlugin'] = async ({ config,
         }
     }
 
-    if (!config.clusterHost.endsWith('redshift.amazonaws.com')) {
+    if (!config.clusterHost.endsWith('.redshift.amazonaws.com')) {
         throw new Error('Cluster host must be a valid AWS Redshift host')
     }
 
